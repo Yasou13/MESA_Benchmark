@@ -17,8 +17,6 @@ from unittest.mock import MagicMock, patch
 # Ensure repo root is on path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
-if (REPO_ROOT / "mesa-benchmark").is_dir():
-    sys.path.insert(0, str(REPO_ROOT / "mesa-benchmark"))
 
 
 # ===================================================================
@@ -379,11 +377,7 @@ class TestReporter:
 
 class TestDockerfile:
     def test_dockerfile_uses_uv_lock_file(self):
-        dockerfile_path = (
-            REPO_ROOT / "Dockerfile"
-            if (REPO_ROOT / "Dockerfile").exists()
-            else REPO_ROOT / "mesa-benchmark" / "Dockerfile"
-        )
+        dockerfile_path = REPO_ROOT / "Dockerfile"
         content = dockerfile_path.read_text(encoding="utf-8")
         assert "COPY pyproject.toml uv.lock" in content
         assert "uv sync --frozen --no-dev --extra benchmarks" in content
@@ -391,11 +385,7 @@ class TestDockerfile:
         assert "requirements.txt" not in content
 
     def test_benchmark_image_is_digest_pinned_nonroot_and_offline_at_runtime(self):
-        dockerfile_path = (
-            REPO_ROOT / "Dockerfile"
-            if (REPO_ROOT / "Dockerfile").exists()
-            else REPO_ROOT / "mesa-benchmark" / "Dockerfile"
-        )
+        dockerfile_path = REPO_ROOT / "Dockerfile"
         content = dockerfile_path.read_text(encoding="utf-8")
 
         assert (
@@ -423,30 +413,14 @@ class TestConfigFile:
     @patch("pathlib.Path.read_text")
     def test_config_uses_200_dataset(self, mock_read):
         mock_read.return_value = "dataset:\n  name: comprehensive_200_dataset.json"
-        config_path = (
-            REPO_ROOT / "config.yaml"
-            if (REPO_ROOT / "config.yaml").exists()
-            else (
-                REPO_ROOT / "mesa-benchmark" / "config.yaml"
-                if (REPO_ROOT / "mesa-benchmark" / "config.yaml").exists()
-                else REPO_ROOT / "config.yaml"
-            )
-        )
+        config_path = REPO_ROOT / "config.yaml"
         content = config_path.read_text(encoding="utf-8")
         assert "comprehensive_200_dataset.json" in content
 
     @patch("pathlib.Path.read_text")
     def test_config_has_llm_judge_enabled(self, mock_read):
         mock_read.return_value = "llm_judge_model: gpt-4o-mini"
-        config_path = (
-            REPO_ROOT / "config.yaml"
-            if (REPO_ROOT / "config.yaml").exists()
-            else (
-                REPO_ROOT / "mesa-benchmark" / "config.yaml"
-                if (REPO_ROOT / "mesa-benchmark" / "config.yaml").exists()
-                else REPO_ROOT / "config.yaml"
-            )
-        )
+        config_path = REPO_ROOT / "config.yaml"
         content = config_path.read_text(encoding="utf-8")
         assert "gpt-4o-mini" in content
 
@@ -456,15 +430,7 @@ class TestConfigFile:
 
         from mesa_benchmark.core.config import load_config
 
-        cfg_p = (
-            REPO_ROOT / "config.yaml"
-            if (REPO_ROOT / "config.yaml").exists()
-            else (
-                REPO_ROOT / "mesa-benchmark" / "config.yaml"
-                if (REPO_ROOT / "mesa-benchmark" / "config.yaml").exists()
-                else REPO_ROOT / "config.yaml"
-            )
-        )
+        cfg_p = REPO_ROOT / "config.yaml"
         config = load_config(cfg_p)
         assert config.iterations == 5
 

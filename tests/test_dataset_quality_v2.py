@@ -24,8 +24,8 @@ from mesa_benchmark.metrics.calculator import (
 
 
 def _load_script(name: str) -> ModuleType:
-    candidate = Path("scripts") / name
-    path = candidate if candidate.exists() else Path("mesa-benchmark/scripts") / name
+    repo_root = Path(__file__).resolve().parent.parent
+    path = repo_root / "scripts" / name
     spec = importlib.util.spec_from_file_location(path.stem, path)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
