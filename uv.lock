@@ -1898,6 +1898,13 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+benchmarks = [
+    { name = "letta-client" },
+    { name = "litellm" },
+    { name = "mem0ai" },
+    { name = "ollama" },
+    { name = "zep-cloud" },
+]
 dev = [
     { name = "black" },
     { name = "mypy" },
@@ -1921,11 +1928,15 @@ requires-dist = [
     { name = "datasets", specifier = ">=2.14.0" },
     { name = "fastapi", specifier = ">=0.115.0" },
     { name = "httpx", specifier = ">=0.27.0" },
+    { name = "letta-client", marker = "extra == 'benchmarks'", specifier = ">=1.0.0" },
     { name = "letta-client", marker = "extra == 'providers'", specifier = ">=1.0.0" },
+    { name = "litellm", marker = "extra == 'benchmarks'", specifier = ">=1.40.0" },
     { name = "litellm", marker = "extra == 'providers'", specifier = ">=1.40.0" },
+    { name = "mem0ai", marker = "extra == 'benchmarks'", specifier = ">=0.1.0" },
     { name = "mem0ai", marker = "extra == 'providers'", specifier = ">=0.1.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.10.0" },
     { name = "numpy", specifier = ">=1.24.0" },
+    { name = "ollama", marker = "extra == 'benchmarks'", specifier = ">=0.6.1" },
     { name = "ollama", marker = "extra == 'providers'", specifier = ">=0.6.1" },
     { name = "psutil", specifier = ">=5.9.0" },
     { name = "pydantic", specifier = ">=2.0.0" },
@@ -1939,9 +1950,10 @@ requires-dist = [
     { name = "sentence-transformers", specifier = ">=3.0.0" },
     { name = "tiktoken", specifier = ">=0.5.0" },
     { name = "uvicorn", specifier = ">=0.29.0" },
+    { name = "zep-cloud", marker = "extra == 'benchmarks'", specifier = ">=2.0.0" },
     { name = "zep-cloud", marker = "extra == 'providers'", specifier = ">=2.0.0" },
 ]
-provides-extras = ["providers", "dev"]
+provides-extras = ["providers", "benchmarks", "dev"]
 
 [[package]]
 name = "mpmath"
