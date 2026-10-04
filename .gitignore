@@ -1,0 +1,82 @@
+# Python & Build Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+env/
+venv/
+build/
+dist/
+*.egg-info/
+*.egg
+*.whl
+pip-wheel-metadata/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+*.tsbuildinfo
+
+# Node / Dashboard
+node_modules/
+dashboard-ui/node_modules/
+dashboard-ui/coverage/
+dashboard-ui/dist/
+dashboard-ui/playwright-report/
+dashboard-ui/test-results/
+dashboard-ui/vite.config.js
+dashboard-ui/vite.config.d.ts
+
+# Benchmark Outputs & Runtime State
+/results/
+/reports/
+!mesa_benchmark/reports/
+!mesa_benchmark/reports/*.py
+bench_results.json
+*.jsonl
+state.json
+.state.json
+reproducibility_report.json
+_temp_config.yaml
+probe.json
+
+# Local Databases & Stores
+*.db
+*.sqlite
+*.sqlite3
+*.lance/
+*.kuzu/
+storage/
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# Large Caches & Downloaded External/Generated Datasets
+.cache/
+downloads/
+datasets/external/
+datasets/generated/
+datasets/external_raw/
+
+# Model Caches
+models/
+huggingface_cache/
+*.bin
+*.pt
+*.onnx
+*.safetensors
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.benchmarks/
