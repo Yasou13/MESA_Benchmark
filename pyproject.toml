@@ -1,0 +1,118 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mesa-benchmark"
+version = "0.1.0"
+description = "Scientific evaluation and benchmark suite for memory and retrieval architectures"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "MESA Benchmark Team"},
+]
+keywords = ["ai", "benchmark", "memory", "retrieval", "llm", "evaluation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: AI",
+]
+
+dependencies = [
+    "datasets>=2.14.0",
+    "sentence-transformers>=3.0.0",
+    "numpy>=1.24.0",
+    "pydantic>=2.0.0",
+    "PyYAML>=6.0.0",
+    "tiktoken>=0.5.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.29.0",
+    "httpx>=0.27.0",
+    "psutil>=5.9.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+providers = [
+    "mem0ai>=0.1.0",
+    "letta-client>=1.0.0",
+    "zep-cloud>=2.0.0",
+    "litellm>=1.40.0",
+    "ollama>=0.6.1",
+]
+benchmarks = [
+    "mem0ai>=0.1.0",
+    "letta-client>=1.0.0",
+    "zep-cloud>=2.0.0",
+    "litellm>=1.40.0",
+    "ollama>=0.6.1",
+]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "pytest-benchmark>=4.0.0",
+    "mypy>=1.10.0",
+    "black>=24.0.0",
+    "ruff>=0.4.0",
+]
+
+[project.scripts]
+mesa-benchmark = "mesa_benchmark.cli:main"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mesa_benchmark*"]
+exclude = [
+    "*.__pycache__",
+    "*.__pycache__.*",
+]
+
+[tool.setuptools.package-data]
+"mesa_benchmark" = [
+    "resources/**/*.json",
+    "resources/**/*.tiktoken",
+    "resources/**/*.yaml",
+    "dashboard/static/**/*",
+]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.pyc", "*.pyo", "__pycache__/*", "**/__pycache__/*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*" = ["E402"]
+"tests/*" = ["E402"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+explicit_package_bases = true
+plugins = ["pydantic.mypy"]
+exclude = [
+    "^venv/",
+    "^build/",
+    "^scripts/",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "optional_provider: requires an optional provider SDK; no real network calls",
+    "live_external: requires an explicitly enabled external service",
+]

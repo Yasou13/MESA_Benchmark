@@ -1,0 +1,6 @@
+recursive-include mesa_benchmark/resources *.json *.yaml *.tiktoken
+recursive-include mesa_benchmark/dashboard/static *
+include README.md
+include USAGE_GUIDE.md
+global-exclude *.py[cod]
+global-exclude __pycache__
