@@ -30,7 +30,7 @@ geçmez.
 Suite, config, manifest, tokenizer ve küçük offline fixture’lar wheel içinde
 `resource://` URI’leriyle taşınır. Büyük datasetler `data://` URI’leriyle
 çözülür. Veri kökü sırasıyla `MESA_BENCHMARK_DATA_DIR`, source checkout’taki
-`mesa-benchmark/datasets` ve kullanıcı cache dizinidir. Sonuç kökü
+`datasets/` ve kullanıcı cache dizinidir. Sonuç kökü
 `--results-root`, `MESA_BENCHMARK_RESULTS_DIR`, repository `results/` ve kurulu
 pakette çalışma dizini sırasıyla seçilir.
 
@@ -55,10 +55,10 @@ Benchmark planlama, deterministic sharding, canlı ilerleme, güvenli
 duraklatma/devam ve sonuç karşılaştırması için:
 
 ```bash
-cd mesa-benchmark/dashboard-ui
+cd dashboard-ui
 npm ci
 npm run build
-cd ../..
+cd ..
 mesa-benchmark dashboard
 ```
 
@@ -165,7 +165,7 @@ Her seed ayrı dizin, manifest ve state dosyası kullanır. Resume yalnızca eff
 - Harici raw/converted büyük dosyalar commit edilmez; `dataset-sync` ile pinned
   kaynaktan hazırlanır. BEAM v2 release verisi local data root’ta checksum ile
   korunur; wheel içine alınmaz.
-- LoCoMo indirme/dönüştürme: `python mesa-benchmark/scripts/download_locomo.py`. Lisansı CC‑BY‑NC‑4.0 olduğundan ticari kullanım ayrıca değerlendirilmelidir.
+- LoCoMo indirme/dönüştürme: `python scripts/download_locomo.py`. Lisansı CC‑BY‑NC‑4.0 olduğundan ticari kullanım ayrıca değerlendirilmelidir.
 
 Eski `mesa-benchmark/config_*.yaml` adları CLI tarafından geriye uyumlu alias
 olarak kabul edilir ve deprecation uyarısı üretir. Yeni entegrasyonlar canonical
@@ -176,8 +176,8 @@ olarak kabul edilir ve deprecation uyarısı üretir. Yeni entegrasyonlar canoni
 Build context repository kökü olmalıdır:
 
 ```bash
-docker build -f mesa-benchmark/Dockerfile -t mesa-benchmark .
-docker run --rm --env-file mesa-benchmark/.env \
+docker build -t mesa-benchmark .
+docker run --rm --env-file .env \
   mesa-benchmark --config resource://configs/legacy/mini_mesa.yaml
 ```
 
@@ -192,10 +192,9 @@ docker run --rm --network=none mesa-benchmark --help
 ## Test
 
 ```bash
-PYTHONPATH=mesa-benchmark python -m pytest mesa-benchmark/tests -q
-ruff check mesa-benchmark/mesa_benchmark mesa-benchmark/tests
-mypy mesa-benchmark/mesa_benchmark
-python -m pytest tests/test_v4_rrf_ablation.py -q
+pytest -q tests
+ruff check mesa_benchmark scripts tests
+mypy mesa_benchmark
 ```
 
 P95/P99 yalnız en az 20 latency gözlemi varsa raporlanır; küçük mini koşumlarda değer `N/A` olur. Multi-seed özet ve baseline karşılaştırması `N/A` değerlerini sıfır kabul etmez; kullanılan ve dışlanan seed’leri JSON raporunda belirtir.
@@ -207,10 +206,9 @@ P95/P99 yalnız en az 20 latency gözlemi varsa raporlanır; küçük mini koşu
 Yerel sahte Ollama + gerçek geçici MESA storage entegrasyonu:
 
 ```bash
-PYTHONPATH=mesa-benchmark \
 MESA_RUN_SOCKET_TESTS=1 MESA_RUN_REAL_STORAGE_TESTS=1 \
 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 \
-python -m pytest mesa-benchmark/tests/test_hardening.py -q
+pytest tests/test_hardening.py -q
 ```
 
-Ayrıntılar için [kullanım kılavuzu](USAGE_GUIDE.md), [metodoloji](../BENCHMARK_METHODOLOGY.md) ve [ADR‑0008](../docs/adr/0008-benchmark-architecture.md) belgelerine bakın.
+Ayrıntılar için [kullanım kılavuzu](USAGE_GUIDE.md) ve [kanonik metodoloji](docs/METHODOLOGY.md) belgesine bakın.
