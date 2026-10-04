@@ -50,7 +50,7 @@ jobs:
       HF_DATASETS_OFFLINE: "1"
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.10"
           cache: pip
@@ -118,7 +118,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.10"
           cache: pip
@@ -149,7 +149,7 @@ jobs:
       BENCHMARK_JUDGE_CALIBRATION_JSON: ${{ secrets.BENCHMARK_JUDGE_CALIBRATION_JSON }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.10"
           cache: pip
